@@ -55,7 +55,7 @@ export default function DressCode() {
               Formal
             </p>
             <p className="mt-1.5 font-serif text-[clamp(0.7rem,2.6vw,0.95rem)] leading-snug text-ink/85">
-              Caballeros con traje, damas con vestido largo.
+              Caballeros con terno, damas con vestido largo.
             </p>
           </div>
         </div>
