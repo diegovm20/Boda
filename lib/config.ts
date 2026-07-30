@@ -26,29 +26,27 @@ export const BODA = {
   eventos: [
     {
       nombre: 'Ceremonia',
-      hora: '4:30 PM',
-      lugar: 'Parroquia por confirmar',
+      hora: '3:00 PM',
+      lugar: 'Salón por confirmar',
       direccion: 'Dirección por confirmar, Lima',
       nota: 'Te pedimos llegar 20 minutos antes.',
     },
     {
       nombre: 'Recepción',
-      hora: '6:30 PM',
-      lugar: 'Salón por confirmar',
+      hora: '4:00 PM',
+      lugar: 'Mismo lugar de la ceremonia',
       direccion: 'Dirección por confirmar, Lima',
       nota: 'Cena, brindis y baile hasta el final.',
     },
   ],
 
-  // Un solo lugar de referencia para el mapa (ajústalo cuando confirmen).
+  // Un solo lugar de referencia para el mapa (ceremonia y recepción son en el mismo lugar).
   ubicacion: {
     nombre: 'Lima, Perú',
     lat: -12.0464,
     lng: -77.0428,
     // URL que abre el botón "Ubicación" en Google Maps.
-    // PLACEHOLDER: reemplaza por el link real del venue (ej. https://maps.app.goo.gl/XXXX).
-    // Si lo dejas vacío, el botón usa las coordenadas lat/lng de arriba como respaldo.
-    mapsUrl: '',
+    mapsUrl: 'https://maps.app.goo.gl/9Xf4va63qxU9pzpx7?g_st=ic',
   },
 
   dressCode: {

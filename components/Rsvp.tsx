@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { BODA, MAX_ASISTENTES } from '@/lib/config'
+import { BODA } from '@/lib/config'
 import { supabase, supabaseConfigurado } from '@/lib/supabase'
 
 const EASE = [0.22, 1, 0.36, 1] as const
@@ -11,14 +11,13 @@ type Estado = 'idle' | 'enviando' | 'confirmado' | 'error'
 export default function Rsvp() {
   const [estado, setEstado] = useState<Estado>('idle')
   const [asiste, setAsiste] = useState(true)
-  const [asistentes, setAsistentes] = useState(2)
   const [nombre, setNombre] = useState('')
-  const [restriccion, setRestriccion] = useState('')
+  const [acompanante, setAcompanante] = useState('')
   const [mensaje, setMensaje] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const step = (d: number) =>
-    setAsistentes((n) => Math.max(1, Math.min(MAX_ASISTENTES, n + d)))
+  // Cupo fijo: cada invitación es para 2 personas (invitado + acompañante).
+  const asistentes = 2
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault()
@@ -27,14 +26,19 @@ export default function Rsvp() {
       setEstado('error')
       return
     }
+    if (!acompanante.trim()) {
+      setErrorMsg('Cuéntanos el nombre de tu acompañante.')
+      setEstado('error')
+      return
+    }
     setEstado('enviando')
     setErrorMsg('')
 
     const payload = {
       nombre: nombre.trim(),
+      acompanante: acompanante.trim(),
       asiste,
       asistentes: asiste ? asistentes : 0,
-      restriccion: restriccion.trim() || null,
       mensaje: mensaje.trim() || null,
     }
 
@@ -112,13 +116,27 @@ export default function Rsvp() {
                 {/* Nombre */}
                 <label className="flex flex-col gap-2">
                   <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
-                    Nombre completo
+                    Nombre
                   </span>
                   <input
                     type="text"
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
-                    placeholder="Tu nombre y el de tu acompañante"
+                    placeholder="Tu nombre"
+                    className="border-b border-olive-300 bg-transparent pb-2 font-serif text-lg text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-olive-700"
+                  />
+                </label>
+
+                {/* Nombre del acompañante */}
+                <label className="flex flex-col gap-2">
+                  <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
+                    Nombre del acompañante
+                  </span>
+                  <input
+                    type="text"
+                    value={acompanante}
+                    onChange={(e) => setAcompanante(e.target.value)}
+                    placeholder="Nombre de tu acompañante"
                     className="border-b border-olive-300 bg-transparent pb-2 font-serif text-lg text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-olive-700"
                   />
                 </label>
@@ -148,60 +166,6 @@ export default function Rsvp() {
                     ))}
                   </div>
                 </div>
-
-                {/* Stepper de asistentes */}
-                <AnimatePresence initial={false}>
-                  {asiste && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.35, ease: EASE }}
-                      className="flex flex-col gap-2 overflow-hidden"
-                    >
-                      <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
-                        ¿Cuántos asistirán?
-                      </span>
-                      <div className="flex items-center gap-6">
-                        <button
-                          type="button"
-                          onClick={() => step(-1)}
-                          className="flex h-11 w-11 items-center justify-center border border-olive-300 font-serif text-2xl text-olive-700 transition-colors hover:border-olive-700 disabled:opacity-30"
-                          disabled={asistentes <= 1}
-                          aria-label="Quitar asistente"
-                        >
-                          −
-                        </button>
-                        <span className="min-w-[2ch] text-center font-serif text-3xl font-light tabular-nums text-olive-800">
-                          {asistentes}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => step(1)}
-                          className="flex h-11 w-11 items-center justify-center border border-olive-300 font-serif text-2xl text-olive-700 transition-colors hover:border-olive-700 disabled:opacity-30"
-                          disabled={asistentes >= MAX_ASISTENTES}
-                          aria-label="Agregar asistente"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Restricción alimentaria */}
-                <label className="flex flex-col gap-2">
-                  <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
-                    Restricción alimentaria (opcional)
-                  </span>
-                  <input
-                    type="text"
-                    value={restriccion}
-                    onChange={(e) => setRestriccion(e.target.value)}
-                    placeholder="Vegetariano, sin gluten…"
-                    className="border-b border-olive-300 bg-transparent pb-2 font-serif text-lg text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-olive-700"
-                  />
-                </label>
 
                 {/* Mensaje */}
                 <label className="flex flex-col gap-2">
