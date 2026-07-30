@@ -73,6 +73,13 @@ export default function Countdown() {
   return (
     <section className="section py-16 text-center" id="countdown">
       <p
+        className="mb-4 font-sans text-[0.8rem] uppercase tracking-overline text-olive-600"
+        data-reveal
+      >
+        {BODA.fechaDisplay}
+      </p>
+
+      <p
         className="font-script text-[clamp(2.1rem,9vw,2.9rem)] leading-none text-olive-700"
         data-reveal
       >
