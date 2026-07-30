@@ -62,15 +62,18 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${serif.variable} ${sans.variable} ${script.variable}`}>
       <body className="font-sans antialiased">
-        {/* Fondo de toda la página: superficie casi blanca y limpia, como el
-            flat-lay de la referencia. La profundidad la dan las sombras de las
-            tarjetas, no el fondo (sin colores ni textura marcada). */}
+        {/* Fondo de toda la página: textura de papel (textura.jpeg) en mosaico.
+            La repetimos a tamaño reducido (repeat + background-size) en vez de
+            estirarla a "cover": así el grano nunca se agranda ni se pixela, y en
+            pantallas retina se ve nítido. El color base queda debajo por si acaso. */}
         <div
           aria-hidden
           className="fixed inset-0 -z-10"
           style={{
-            background:
-              'radial-gradient(125% 90% at 50% 25%, #ffffff 0%, #fbfaf8 55%, #f6f5f1 100%)',
+            backgroundColor: 'var(--cream)',
+            backgroundImage: 'url(/textura.jpeg)',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '420px auto',
           }}
         />
         <SmoothScroll>{children}</SmoothScroll>
