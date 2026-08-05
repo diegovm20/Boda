@@ -17,7 +17,7 @@ export default function Rsvp() {
   const [errorMsg, setErrorMsg] = useState('')
 
   // Cupo fijo: cada invitación es para 2 personas (invitado + acompañante).
-  const asistentes = 2
+  const asistentes: number = 2
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault()

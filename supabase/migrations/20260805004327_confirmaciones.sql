@@ -3,7 +3,6 @@
 create table if not exists confirmaciones (
   id            uuid primary key default gen_random_uuid(),
   nombre        text not null,
-  acompanante   text,
   asiste        boolean not null default true,
   asistentes    int not null default 1 check (asistentes >= 0 and asistentes <= 20),
   restriccion   text,
