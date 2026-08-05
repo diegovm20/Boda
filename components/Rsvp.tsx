@@ -8,7 +8,12 @@ import { supabase, supabaseConfigurado } from '@/lib/supabase'
 const EASE = [0.22, 1, 0.36, 1] as const
 type Estado = 'idle' | 'enviando' | 'confirmado' | 'error'
 
-export default function Rsvp() {
+/**
+ * `conAcompanante` distingue las dos invitaciones que comparten esta tabla:
+ * la de pareja (/) pide el nombre del acompañante y guarda 2 lugares; la
+ * individual (/individual) es para un solo invitado y guarda 1.
+ */
+export default function Rsvp({ conAcompanante = true }: { conAcompanante?: boolean }) {
   const [estado, setEstado] = useState<Estado>('idle')
   const [asiste, setAsiste] = useState(true)
   const [nombre, setNombre] = useState('')
@@ -16,8 +21,8 @@ export default function Rsvp() {
   const [mensaje, setMensaje] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
-  // Cupo fijo: cada invitación es para 2 personas (invitado + acompañante).
-  const asistentes: number = 2
+  // Cupo fijo por invitación: 2 personas (invitado + acompañante) o 1.
+  const asistentes: number = conAcompanante ? 2 : 1
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault()
@@ -26,7 +31,7 @@ export default function Rsvp() {
       setEstado('error')
       return
     }
-    if (!acompanante.trim()) {
+    if (conAcompanante && !acompanante.trim()) {
       setErrorMsg('Cuéntanos el nombre de tu acompañante.')
       setEstado('error')
       return
@@ -36,10 +41,11 @@ export default function Rsvp() {
 
     const payload = {
       nombre: nombre.trim(),
-      acompanante: acompanante.trim(),
+      acompanante: conAcompanante ? acompanante.trim() : null,
       asiste,
       asistentes: asiste ? asistentes : 0,
       mensaje: mensaje.trim() || null,
+      origen: conAcompanante ? 'pareja' : 'solo',
     }
 
     try {
@@ -127,19 +133,21 @@ export default function Rsvp() {
                   />
                 </label>
 
-                {/* Nombre del acompañante */}
-                <label className="flex flex-col gap-2">
-                  <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
-                    Nombre del acompañante
-                  </span>
-                  <input
-                    type="text"
-                    value={acompanante}
-                    onChange={(e) => setAcompanante(e.target.value)}
-                    placeholder="Nombre de tu acompañante"
-                    className="border-b border-olive-300 bg-transparent pb-2 font-serif text-lg text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-olive-700"
-                  />
-                </label>
+                {/* Nombre del acompañante — solo en la invitación de pareja */}
+                {conAcompanante && (
+                  <label className="flex flex-col gap-2">
+                    <span className="font-sans text-[0.65rem] uppercase tracking-overline text-olive-600">
+                      Nombre del acompañante
+                    </span>
+                    <input
+                      type="text"
+                      value={acompanante}
+                      onChange={(e) => setAcompanante(e.target.value)}
+                      placeholder="Nombre de tu acompañante"
+                      className="border-b border-olive-300 bg-transparent pb-2 font-serif text-lg text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-olive-700"
+                    />
+                  </label>
+                )}
 
                 {/* Asiste / No asiste */}
                 <div className="flex flex-col gap-2">

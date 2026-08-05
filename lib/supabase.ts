@@ -15,8 +15,11 @@ export const supabase = supabaseConfigurado
 
 export type Confirmacion = {
   nombre: string
+  acompanante?: string | null
   asiste: boolean
   asistentes: number
   restriccion?: string | null
   mensaje?: string | null
+  // Qué invitación originó la confirmación (ver components/Rsvp.tsx).
+  origen: 'pareja' | 'solo'
 }
