@@ -8,7 +8,7 @@ create table if not exists confirmaciones (
   asistentes    int not null default 1 check (asistentes >= 0 and asistentes <= 20),
   restriccion   text,
   mensaje       text,
-  -- Qué invitación originó la confirmación: 'pareja' (/) o 'solo' (/individual).
+  -- Qué invitación originó la confirmación: 'pareja' (/) o 'solo' (/olivo).
   origen        text not null default 'pareja' check (origen in ('pareja', 'solo')),
   confirmado_at timestamptz not null default now()
 );

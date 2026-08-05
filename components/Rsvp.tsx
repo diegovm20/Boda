@@ -11,7 +11,7 @@ type Estado = 'idle' | 'enviando' | 'confirmado' | 'error'
 /**
  * `conAcompanante` distingue las dos invitaciones que comparten esta tabla:
  * la de pareja (/) pide el nombre del acompañante y guarda 2 lugares; la
- * individual (/individual) es para un solo invitado y guarda 1.
+ * individual (/olivo) es para un solo invitado y guarda 1.
  */
 export default function Rsvp({ conAcompanante = true }: { conAcompanante?: boolean }) {
   const [estado, setEstado] = useState<Estado>('idle')

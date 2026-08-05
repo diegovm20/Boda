@@ -10,7 +10,7 @@ import Regalos from '@/components/Regalos'
 import Footer from '@/components/Footer'
 
 /**
- * La invitación completa. Las dos rutas (/ y /individual) renderizan esto
+ * La invitación completa. Las dos rutas (/ y /olivo) renderizan esto
  * mismo; lo único que cambia es si el RSVP pide acompañante.
  */
 export default function Invitacion({ conAcompanante = true }: { conAcompanante?: boolean }) {
