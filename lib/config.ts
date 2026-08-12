@@ -27,15 +27,15 @@ export const BODA = {
     {
       nombre: 'Ceremonia',
       hora: '3:00 PM',
-      lugar: 'Salón por confirmar',
-      direccion: 'Dirección por confirmar, Lima',
+      lugar: 'Nueva Toledo 143',
+      direccion: '',
       nota: 'Te pedimos llegar 20 minutos antes.',
     },
     {
       nombre: 'Recepción',
       hora: '4:00 PM',
       lugar: 'Mismo lugar de la ceremonia',
-      direccion: 'Dirección por confirmar, Lima',
+      direccion: '',
       nota: 'Cena, brindis y baile hasta el final.',
     },
   ],
