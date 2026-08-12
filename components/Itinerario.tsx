@@ -87,9 +87,11 @@ export default function Itinerario() {
                   <p className="mt-3 font-serif text-xl leading-snug text-ink">
                     {ev.lugar}
                   </p>
-                  <p className="mt-1 font-serif text-base italic text-olive-700">
-                    {ev.direccion}
-                  </p>
+                  {ev.direccion ? (
+                    <p className="mt-1 font-serif text-base italic text-olive-700">
+                      {ev.direccion}
+                    </p>
+                  ) : null}
                   {ev.nota && (
                     <p className="mt-3 font-sans text-xs leading-relaxed text-ink/70">
                       {ev.nota}
