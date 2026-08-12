@@ -38,7 +38,7 @@ export default function Hero() {
       setFase('abierto')
       document.body.dataset.introLocked = 'false'
       ;(window as any).__lenis?.start?.()
-    }, 1400)
+    }, 850)
   }
 
   const cerrado = fase === 'cerrado'
@@ -65,9 +65,9 @@ export default function Hero() {
               los dos no mueva nada de sitio. Solo uno es visible a la vez. */}
           <motion.div
             className="relative"
-            initial={reduce ? false : { opacity: 0, scale: 0.94, y: 16 }}
+            initial={reduce ? false : { opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE }}
+            transition={{ duration: 0.9, ease: EASE }}
           >
             {/* Sobre abierto — invisible hasta el click, pero en flujo para
                 que el alto de la escena no cambie al cruzar las dos imágenes. */}
@@ -92,7 +92,7 @@ export default function Hero() {
               className="pointer-events-none absolute inset-0"
               initial={false}
               animate={{ opacity: emerged ? 0 : 1, scale: emerged ? 1.02 : 1 }}
-              transition={{ duration: 0.6, ease: EASE }}
+              transition={{ duration: 0.45, ease: EASE }}
             >
               <Image
                 src="/sobre.png"
@@ -112,7 +112,7 @@ export default function Hero() {
               animate={
                 emerged ? { top: '42%', opacity: 1 } : { top: '56%', opacity: 0 }
               }
-              transition={{ duration: 1, ease: EASE, delay: emerged && !reduce ? 0.35 : 0 }}
+              transition={{ duration: 0.75, ease: EASE, delay: emerged && !reduce ? 0.3 : 0 }}
             >
               <Image
                 src="/ornamento2-original.png"
@@ -137,7 +137,7 @@ export default function Hero() {
                       : { scale: 1, opacity: 1 }
                   }
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6, ease: EASE }}
+                  transition={{ duration: 0.45, ease: EASE }}
                 >
                   <motion.div
                     animate={cerrado ? { scale: [1, 1.04, 1] } : { scale: 1 }}
@@ -182,9 +182,9 @@ export default function Hero() {
             ) : (
               <motion.div
                 key="date"
-                initial={reduce ? false : { opacity: 0, y: 12 }}
+                initial={reduce ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.35 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
                 className="rule-diamond"
               >
                 <span className="font-sans text-[0.8rem] uppercase tracking-overline text-olive-600">
