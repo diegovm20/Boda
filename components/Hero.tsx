@@ -83,7 +83,7 @@ export default function Hero() {
                 height={500}
                 priority
                 sizes="(max-width: 600px) 94vw, 560px"
-                className="h-auto w-full select-none drop-shadow-[0_24px_50px_rgba(45,45,22,0.16)]"
+                className="h-auto w-full select-none"
               />
             </motion.div>
 
@@ -101,7 +101,7 @@ export default function Hero() {
                 height={1254}
                 priority
                 sizes="(max-width: 600px) 94vw, 560px"
-                className="h-auto w-full select-none drop-shadow-[0_24px_50px_rgba(45,45,22,0.16)]"
+                className="h-auto w-full select-none"
               />
             </motion.div>
 
