@@ -8,13 +8,12 @@ import { BODA } from '@/lib/config'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 /**
- * Portada: el sobre (carta) con el sello M&S. Al tocar, el sello se rompe y la
- * viñeta con los nombres emerge del sobre. Todo centrado, mobile-first.
+ * Portada: el sobre cerrado (sobre.png). Al tocar, el sello se rompe, aparece
+ * el sobre abierto (envelope.png) y emerge la viñeta con los nombres.
  *
  * Sizing: el sobre es un <Image w-full h-auto> en flujo, así define el ancho y
- * alto de la escena por su ratio intrínseco (nada de `fill` ni aspect-ratio, que
- * colapsan la altura). La viñeta y el sello se posicionan en % sobre ese alto, y
- * un spacer reserva el saliente de la viñeta por debajo del sobre.
+ * alto de la escena por su ratio intrínseco. La viñeta y el sello se posicionan
+ * en % sobre ese alto, y un spacer reserva el saliente de la viñeta.
  */
 export default function Hero() {
   const [fase, setFase] = useState<'cerrado' | 'abriendo' | 'abierto'>('cerrado')
@@ -51,7 +50,7 @@ export default function Hero() {
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center"
     >
       <div className="relative z-10 flex flex-col items-center">
-        {/* Escena: sobre + viñeta + sello */}
+        {/* Escena: sobre cerrado → sobre abierto + viñeta + sello */}
         <button
           type="button"
           onClick={abrir}
@@ -61,17 +60,25 @@ export default function Hero() {
             cerrado ? 'cursor-pointer' : 'cursor-default'
           }`}
         >
-          {/* Wrapper del alto del sobre */}
-          <div className="relative">
-            {/* El sobre (carta) — en flujo, define el tamaño */}
+          {/* Wrapper del alto del sobre. El sobre abierto va en flujo y define
+              el tamaño; el cerrado se superpone encima para que el cruce entre
+              los dos no mueva nada de sitio. Solo uno es visible a la vez. */}
+          <motion.div
+            className="relative"
+            initial={reduce ? false : { opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: EASE }}
+          >
+            {/* Sobre abierto — invisible hasta el click, pero en flujo para
+                que el alto de la escena no cambie al cruzar las dos imágenes. */}
             <motion.div
-              initial={reduce ? false : { opacity: 0, scale: 0.94, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 1.1, ease: EASE }}
+              initial={false}
+              animate={{ opacity: emerged ? 1 : 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: emerged ? 0.2 : 0 }}
             >
               <Image
                 src="/envelope.png"
-                alt="Sobre de la invitación"
+                alt="Sobre abierto de la invitación"
                 width={500}
                 height={500}
                 priority
@@ -80,17 +87,35 @@ export default function Hero() {
               />
             </motion.div>
 
-            {/* La viñeta con los nombres — emerge del sobre */}
+            {/* Sobre cerrado — se disuelve al tocar */}
+            <motion.div
+              className="pointer-events-none absolute inset-0"
+              initial={false}
+              animate={{ opacity: emerged ? 0 : 1, scale: emerged ? 1.02 : 1 }}
+              transition={{ duration: 0.6, ease: EASE }}
+            >
+              <Image
+                src="/sobre.png"
+                alt="Sobre cerrado de la invitación"
+                width={1254}
+                height={1254}
+                priority
+                sizes="(max-width: 600px) 94vw, 560px"
+                className="h-auto w-full select-none drop-shadow-[0_24px_50px_rgba(45,45,22,0.16)]"
+              />
+            </motion.div>
+
+            {/* La viñeta con los nombres — emerge del sobre al abrir */}
             <motion.div
               className="absolute left-1/2 z-20 w-[76%] -translate-x-1/2"
               initial={false}
               animate={
                 emerged ? { top: '42%', opacity: 1 } : { top: '56%', opacity: 0 }
               }
-              transition={{ duration: 1, ease: EASE, delay: emerged && !reduce ? 0.1 : 0 }}
+              transition={{ duration: 1, ease: EASE, delay: emerged && !reduce ? 0.35 : 0 }}
             >
               <Image
-                src="/ornamento2.png"
+                src="/ornamento2-original.png"
                 alt={`${BODA.novios.ella} & ${BODA.novios.el} — ${BODA.ciudad}`}
                 width={228}
                 height={305}
@@ -100,7 +125,7 @@ export default function Hero() {
               />
             </motion.div>
 
-            {/* El sello de lacre M&S sobre el sobre */}
+            {/* El sello de lacre M&S sobre el sobre cerrado */}
             <AnimatePresence>
               {(cerrado || fase === 'abriendo') && (
                 <motion.div
@@ -134,7 +159,7 @@ export default function Hero() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
 
           {/* Reserva el saliente de la viñeta por debajo del sobre */}
           <div className="h-[41vw] max-h-[244px]" />
