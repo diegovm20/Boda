@@ -1,0 +1,39 @@
+// app/regalos/page.tsx
+import { createClient } from "@/lib/supabase"; // AJUSTA este import a como tengas tu cliente de supabase
+import GiftList, { Gift } from "@/components/GiftList";
+
+export const revalidate = 0; // siempre trae datos frescos (para saber qué ya fue tomado)
+
+export default async function RegalosPage() {
+  const supabase = createClient();
+
+  const { data: gifts, error } = await supabase
+    .from("gifts")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  return (
+    <main className="min-h-screen bg-[#f2ede1] bg-[url('/paper-texture.png')] bg-repeat px-6 py-16">
+      <div className="max-w-3xl mx-auto text-center mb-14">
+        <div className="mx-auto mb-6 w-20 h-20 rounded-full bg-[#4d4a30] text-[#f2ede1] flex items-center justify-center font-serif text-xl shadow-md">
+          M&S
+        </div>
+        <h1 className="font-serif text-3xl md:text-4xl text-[#4d4a30] tracking-wide mb-4">
+          Nuestra Mesa de Regalos
+        </h1>
+        <p className="font-serif text-[#6b6850] text-sm md:text-base leading-relaxed max-w-xl mx-auto">
+          Tu presencia es nuestro mejor regalo. Si además deseas obsequiarnos
+          algo, elige una opción de la lista con mucho cariño.
+        </p>
+      </div>
+
+      {error && (
+        <p className="text-center text-red-700 font-serif">
+          No se pudo cargar la lista de regalos. Intenta de nuevo más tarde.
+        </p>
+      )}
+
+      <GiftList initialGifts={(gifts as Gift[]) ?? []} />
+    </main>
+  );
+}
