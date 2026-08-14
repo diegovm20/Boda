@@ -38,7 +38,7 @@ export default function Hero() {
       setFase('abierto')
       document.body.dataset.introLocked = 'false'
       ;(window as any).__lenis?.start?.()
-    }, 850)
+    }, 2100)
   }
 
   const cerrado = fase === 'cerrado'
@@ -112,7 +112,7 @@ export default function Hero() {
               animate={
                 emerged ? { top: '42%', opacity: 1 } : { top: '56%', opacity: 0 }
               }
-              transition={{ duration: 0.75, ease: EASE, delay: emerged && !reduce ? 0.3 : 0 }}
+              transition={{ duration: 1.3, ease: EASE, delay: emerged && !reduce ? 0.95 : 0 }}
             >
               <Image
                 src="/ornamento2-original.png"
@@ -184,7 +184,7 @@ export default function Hero() {
                 key="date"
                 initial={reduce ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+                transition={{ duration: 1, ease: EASE, delay: 0.5 }}
                 className="rule-diamond"
               >
                 <span className="font-sans text-[0.8rem] uppercase tracking-overline text-olive-600">
