@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import { BODA } from '@/lib/config'
 import { supabase, supabaseConfigurado } from '@/lib/supabase'
@@ -77,7 +78,22 @@ export default function Rsvp({ conAcompanante = true }: { conAcompanante?: boole
         {/* Formulario dentro de una tarjeta glassmorphism con sombra 3D
             (perspectiva en el wrapper; el glass + tilt viven en la tarjeta,
             así el data-reveal de GSAP no compite con el backdrop-filter). */}
-        <div className="mx-auto mt-10 w-full max-w-md [perspective:1200px]" data-reveal>
+        <div
+          className="relative mx-auto mt-10 w-full max-w-md [perspective:1200px]"
+          data-reveal
+        >
+          {/* El mismo ramo del itinerario, espejado para que asome por la
+              derecha. Va fuera de la tarjeta para no heredar su rotación 3D. */}
+          <Image
+            src="/ramo.png"
+            alt=""
+            aria-hidden
+            width={830}
+            height={864}
+            sizes="160px"
+            className="pointer-events-none absolute -right-4 -top-12 z-20 w-24 -scale-x-100 rotate-6 select-none sm:-right-8 sm:-top-16 sm:w-32"
+          />
+
           <div
             className="glass rounded-[1.6rem] px-6 py-9 [transform:rotateX(5deg)] sm:px-8"
             style={{
