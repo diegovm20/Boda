@@ -74,7 +74,7 @@ export default function Hero() {
             <motion.div
               initial={false}
               animate={{ opacity: emerged ? 1 : 0 }}
-              transition={{ duration: 0.5, ease: EASE, delay: emerged ? 0.2 : 0 }}
+              transition={{ duration: 1, ease: EASE, delay: emerged ? 0.65 : 0 }}
             >
               <Image
                 src="/envelope.png"
@@ -91,8 +91,8 @@ export default function Hero() {
             <motion.div
               className="pointer-events-none absolute inset-0"
               initial={false}
-              animate={{ opacity: emerged ? 0 : 1, scale: emerged ? 1.02 : 1 }}
-              transition={{ duration: 0.45, ease: EASE }}
+              animate={{ opacity: emerged ? 0 : 1, scale: emerged ? 1.03 : 1 }}
+              transition={{ duration: 1.1, ease: EASE, delay: emerged ? 0.3 : 0 }}
             >
               <Image
                 src="/sobre.png"
@@ -137,7 +137,7 @@ export default function Hero() {
                       : { scale: 1, opacity: 1 }
                   }
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.45, ease: EASE }}
+                  transition={{ duration: 0.9, ease: EASE }}
                 >
                   <motion.div
                     animate={cerrado ? { scale: [1, 1.04, 1] } : { scale: 1 }}
