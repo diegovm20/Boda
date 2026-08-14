@@ -1,11 +1,9 @@
 'use client'
-
 import Image from 'next/image'
+import Link from 'next/link'
 import { BODA } from '@/lib/config'
-
 export default function Regalos() {
-  const { mensaje, url } = BODA.regalos
-
+  const { mensaje } = BODA.regalos
   return (
     <section className="section pb-32 pt-4 text-center" id="regalos">
       {/* Tarjeta de papelería sellada + insignia circular "Regalos" (como la
@@ -30,19 +28,15 @@ export default function Regalos() {
               className="h-auto w-full"
             />
           </div>
-
           {/* Mensaje con capital decorativa, versalitas y texto justificado. */}
           <p className="text-justify font-serif text-[clamp(0.95rem,2.6vw,1.15rem)] uppercase leading-relaxed tracking-[0.02em] text-ink/85 first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-[3.4rem] first-letter:font-light first-letter:leading-[0.8] first-letter:text-olive-700">
             {mensaje}
           </p>
         </div>
-
         {/* Insignia circular "Regalos" en script — clickeable, lleva a la lista.
             Baja y sobresale del borde inferior de la tarjeta. */}
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/regalos"
           aria-label="Ver nuestra lista de regalos"
           className="absolute -bottom-24 right-2 z-10 flex h-28 w-28 flex-col items-center justify-center rounded-full bg-olive-800 shadow-[0_16px_34px_-8px_rgba(45,45,22,0.5)] transition-transform duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive-700 sm:right-6 sm:h-32 sm:w-32"
         >
@@ -52,7 +46,7 @@ export default function Regalos() {
           <span className="mt-1.5 font-sans text-[0.5rem] uppercase tracking-[0.15em] text-cream/60 sm:text-[0.55rem]">
             dar click aquí
           </span>
-        </a>
+        </Link>
       </div>
     </section>
   )
