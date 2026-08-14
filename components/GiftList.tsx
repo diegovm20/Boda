@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase"; // AJUSTA este import a como tengas tu cliente de supabase
+import { supabase, supabaseConfigurado } from "@/lib/supabase";
 
 export type Gift = {
   id: string;
@@ -27,7 +27,7 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
   // Trae la lista de invitados confirmados (para el dropdown) al cargar
   useEffect(() => {
     const loadGuests = async () => {
-      const supabase = createClient();
+      if (!supabaseConfigurado || !supabase) return;
       const { data, error } = await supabase.rpc("list_confirmed_guests");
       if (!error && data) setGuests(data as Guest[]);
     };
@@ -47,6 +47,10 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
 
   const confirmClaim = async () => {
     if (!selectedGift) return;
+    if (!supabaseConfigurado || !supabase) {
+      setErrorMsg("El sitio no está conectado a la base de datos ahora mismo.");
+      return;
+    }
     if (!selectedGuestId) {
       setErrorMsg("Por favor selecciona tu nombre de la lista.");
       return;
@@ -55,7 +59,6 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
     setLoading(true);
     setErrorMsg(null);
 
-    const supabase = createClient();
     const { data, error } = await supabase.rpc("claim_gift", {
       gift_id: selectedGift.id,
       p_guest_id: selectedGuestId,
