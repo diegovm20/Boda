@@ -1,16 +1,24 @@
 // app/regalos/page.tsx
-import { createClient } from "@/lib/supabase"; // AJUSTA este import a como tengas tu cliente de supabase
+import { supabase, supabaseConfigurado } from "@/lib/supabase";
 import GiftList, { Gift } from "@/components/GiftList";
 
 export const revalidate = 0; // siempre trae datos frescos (para saber qué ya fue tomado)
 
 export default async function RegalosPage() {
-  const supabase = createClient();
+  let gifts: Gift[] = [];
+  let hubError = false;
 
-  const { data: gifts, error } = await supabase
-    .from("gifts")
-    .select("*")
-    .order("created_at", { ascending: true });
+  if (supabaseConfigurado && supabase) {
+    const { data, error } = await supabase
+      .from("gifts")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    if (error) hubError = true;
+    gifts = (data as Gift[]) ?? [];
+  } else {
+    hubError = true;
+  }
 
   return (
     <main className="min-h-screen bg-[#f2ede1] bg-[url('/paper-texture.png')] bg-repeat px-6 py-16">
@@ -27,13 +35,13 @@ export default async function RegalosPage() {
         </p>
       </div>
 
-      {error && (
+      {hubError && (
         <p className="text-center text-red-700 font-serif">
           No se pudo cargar la lista de regalos. Intenta de nuevo más tarde.
         </p>
       )}
 
-      <GiftList initialGifts={(gifts as Gift[]) ?? []} />
+      <GiftList initialGifts={gifts} />
     </main>
   );
 }
