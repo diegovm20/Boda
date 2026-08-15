@@ -6,7 +6,7 @@ export const revalidate = 0; // siempre trae datos frescos (para saber qué ya f
 
 // Bandera para prender/apagar esta sección sin borrar el código.
 // Cámbiala a "true" el día que quieras volver a usar la lista de regalos propia.
-const REGALOS_ACTIVO = false;
+const REGALOS_ACTIVO = true;
 
 export default async function RegalosPage() {
   if (!REGALOS_ACTIVO) {
