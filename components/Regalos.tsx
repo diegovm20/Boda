@@ -36,7 +36,7 @@ export default function Regalos() {
             lista de regalos externa (sinenvolturas.com). Baja y sobresale del
             borde inferior de la tarjeta. */}
         <a
-          href="https://sinenvolturas.com/santiagovaldiviesomichellesueros"
+          href="https://sinenvolturas.com/santiagovaldiviesomichellesueros/regalos"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Ver nuestra lista de regalos"
