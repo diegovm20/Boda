@@ -4,7 +4,30 @@ import GiftList, { Gift } from "@/components/GiftList";
 
 export const revalidate = 0; // siempre trae datos frescos (para saber qué ya fue tomado)
 
+// Bandera para prender/apagar esta sección sin borrar el código.
+// Cámbiala a "true" el día que quieras volver a usar la lista de regalos propia.
+const REGALOS_ACTIVO = false;
+
 export default async function RegalosPage() {
+  if (!REGALOS_ACTIVO) {
+    return (
+      <main className="min-h-screen bg-[#f2ede1] flex items-center justify-center px-6 py-16 text-center">
+        <div className="max-w-md">
+          <div className="mx-auto mb-6 w-20 h-20 rounded-full bg-[#4d4a30] text-[#f2ede1] flex items-center justify-center font-serif text-xl shadow-md">
+            M&S
+          </div>
+          <h1 className="font-serif text-2xl text-[#4d4a30] mb-4">
+            Esta sección no está disponible
+          </h1>
+          <p className="font-serif text-[#6b6850] text-sm leading-relaxed">
+            Por ahora encuentra nuestra lista de regalos en el botón
+            "Regalos" de la invitación principal.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   let gifts: Gift[] = [];
   let hubError = false;
 
