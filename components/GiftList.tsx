@@ -163,9 +163,7 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
                   onClick={() => openModal(gift)}
                   className="mt-auto bg-olive-700 text-cream font-sans text-xs uppercase tracking-wide rounded-full px-4 py-2 hover:bg-olive-800 transition"
                 >
-                  {gift.permite_multiple && count > 0
-                    ? "ELEGIR ESTE REGALO"
-                    : "Elegir este regalo"}
+                  Elegir este regalo
                 </button>
               )}
             </div>
