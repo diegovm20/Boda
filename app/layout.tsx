@@ -30,7 +30,7 @@ const titulo = `${BODA.novios.ella} & ${BODA.novios.el} · ${BODA.fechaLarga}`
 const descripcion = `Nos casamos el ${BODA.fechaLarga} en ${BODA.ciudad}. Acompáñanos.`
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://michelle-santiago-boda.vercel.app'),
+  metadataBase: new URL('https://bodamichelleysantiago.vercel.app/'),
   title: titulo,
   description: descripcion,
   openGraph: {
