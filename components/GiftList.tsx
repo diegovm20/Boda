@@ -32,6 +32,15 @@ const SOMBRA_TARJETA = {
     "0 2px 4px rgba(45,45,22,0.06), 0 14px 26px -12px rgba(45,45,22,0.22), 0 44px 70px -30px rgba(45,45,22,0.32)",
 };
 
+// Mensajes de error de la base de datos que sí queremos mostrar tal cual
+// (los demás caen en un mensaje genérico).
+const MENSAJES_CONOCIDOS = [
+  "ya fue seleccionado",
+  "Ya habías",
+  "Ya elegiste",
+  "Invitado no encontrado",
+];
+
 export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
   const [gifts] = useState<Gift[]>(initialGifts);
   const [claimCounts, setClaimCounts] = useState<ClaimCounts>({});
@@ -98,11 +107,11 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
     setLoading(false);
 
     if (error) {
+      const esConocido = MENSAJES_CONOCIDOS.some((texto) =>
+        error.message.includes(texto)
+      );
       setErrorMsg(
-        error.message.includes("ya fue seleccionado") ||
-          error.message.includes("Ya habías")
-          ? error.message
-          : "No se pudo confirmar. Intenta de nuevo."
+        esConocido ? error.message : "No se pudo confirmar. Intenta de nuevo."
       );
       await loadCounts();
       return;
@@ -142,11 +151,6 @@ export default function GiftList({ initialGifts }: { initialGifts: Gift[] }) {
               {gift.price && (
                 <p className="font-sans text-sm text-olive-600 mb-2">
                   S/ {gift.price}
-                </p>
-              )}
-              {gift.permite_multiple && count > 0 && (
-                <p className="font-sans text-xs text-olive-500 mb-3">
-                  Elegido {count} {count === 1 ? "vez" : "veces"}
                 </p>
               )}
 
