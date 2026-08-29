@@ -2,17 +2,25 @@
 import { supabase, supabaseConfigurado } from "@/lib/supabase";
 import GiftList, { Gift } from "@/components/GiftList";
 
-export const revalidate = 0; // siempre trae datos frescos (para saber qué ya fue tomado)
+export const revalidate = 0;
 
-// Bandera para prender/apagar esta sección sin borrar el código.
-// Cámbiala a "true" el día que quieras volver a usar la lista de regalos propia.
 const REGALOS_ACTIVO = true;
 
 export default async function RegalosPage() {
   if (!REGALOS_ACTIVO) {
     return (
-      <main className="min-h-screen bg-[#f2ede1] flex items-center justify-center px-6 py-16 text-center">
-        <div className="max-w-md">
+      <main className="min-h-screen flex items-center justify-center px-6 py-16 text-center relative">
+        <div
+          aria-hidden
+          className="fixed inset-0 -z-10"
+          style={{
+            backgroundColor: 'var(--cream)',
+            backgroundImage: 'url(/textura.jpeg)',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '420px auto',
+          }}
+        />
+        <div className="max-w-md relative z-10">
           <div className="mx-auto mb-6 w-20 h-20 rounded-full bg-[#4d4a30] text-[#f2ede1] flex items-center justify-center font-serif text-xl shadow-md">
             M&S
           </div>
@@ -44,8 +52,21 @@ export default async function RegalosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f2ede1] bg-[url('/paper-texture.png')] bg-repeat px-6 py-16">
-      <div className="max-w-3xl mx-auto text-center mb-14">
+    <main className="min-h-screen px-6 py-16 relative">
+      {/* Fondo de textura de papel */}
+      <div
+        aria-hidden
+        className="fixed inset-0 -z-10"
+        style={{
+          backgroundColor: 'var(--cream)',
+          backgroundImage: 'url(/textura.jpeg)',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '420px auto',
+        }}
+      />
+      
+      {/* Contenido */}
+      <div className="max-w-3xl mx-auto text-center mb-14 relative z-10">
         <div className="mx-auto mb-6 w-20 h-20 rounded-full bg-[#4d4a30] text-[#f2ede1] flex items-center justify-center font-serif text-xl shadow-md">
           M&S
         </div>
@@ -59,7 +80,7 @@ export default async function RegalosPage() {
       </div>
 
       {hubError && (
-        <p className="text-center text-red-700 font-serif">
+        <p className="text-center text-red-700 font-serif relative z-10">
           No se pudo cargar la lista de regalos. Intenta de nuevo más tarde.
         </p>
       )}
